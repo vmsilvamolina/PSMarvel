@@ -61,7 +61,7 @@ function Find-MarvelCharacter {
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
     
-    Write-Host "`n## Character name: `n" -ForegroundColor Green
+    Write-Host "`n## Character names: `n" -ForegroundColor Green
     $Output.data.results.name | % {Write-host "    " $_}
     
 }
@@ -105,20 +105,57 @@ function Get-MarvelCharacter {
     }
 }
 
-function Find-MarvelComics {
+function Find-MarvelComic {
     param(
     [string]$StartWith
     )
 
     New-MarvelTimeSpan
-    $MarvelOffset = Get-Random -Maximum 1490
 
-    $Url = "https://gateway.marvel.com:443/v1/public/series?titleStartsWith=$StartWith&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=$StartWith&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
     
-    Write-Host "`n## Comic title: `n" -ForegroundColor Green
-    $Output.data.results | select title, description, startYear, endYear, rating
+    Write-Host "`n## Comic info: `n" -ForegroundColor Green
+    $Output.data.results | select title, description, format, pageCount
 
+}
+
+function Get-MarvelComic {
+    param(
+    [string]$Title
+    )
+
+    New-MarvelTimeSpan
+
+    $issueNumber = $Title.Split("#")[1]
+    $startYear = $Title.Split("(")[1].Split(")")[0]
+    $Title = $Title.split("(")[0] -replace ".$"
+    $Url = "https://gateway.marvel.com:443/v1/public/comics?title=$Title&issueNumber=$issueNumber&startYear=$startYear&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Results = Invoke-WebRequest $Url
+    $Content = $results.Content
+    $Output = ConvertFrom-Json $Content
+
+    Write-Host "`n## Comic title: `n" -ForegroundColor Green
+    $Name = $Output.data.results.title
+    Write-host "    " $Name
+    Write-Host "`n## Description: `n" -ForegroundColor Green
+    $Description = $Output.data.results.description
+    if ($Description.Length -eq 0) {
+        Write-host "    No description available."
+    } else {
+        Write-host $Description
+    }
+    Write-Host "`n## Series: `n"  -ForegroundColor Green
+    $Series = $Output.data.results.series.name
+    if ($Series -ne 0) {
+        $Series | % {Write-host "    " $_}
+    } else {
+        Write-host "N/A"
+    }
+    Write-host "`n## Format: `n"  -ForegroundColor Green
+    Write-host "    " $Output.data.results.format
+    Write-host "`n## Creators: `n"  -ForegroundColor Green
+    $Output.data.results.creators.items | % {Write-host "    " $_.name "/" $_.role}
 }

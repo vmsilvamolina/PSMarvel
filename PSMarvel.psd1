@@ -12,7 +12,7 @@
 RootModule = 'PSMarvel'
 
 # Version number of this module.
-ModuleVersion = '1.0.1'
+ModuleVersion = '1.0.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ PowerShellVersion = '4.0'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Get-MarvelRandomCharacter', 'Find-MarvelCharacter', 'Get-MarvelCharacter','Find-MarvelComic', 'Get-MarvelComic', 'Find-MarvelSeries', 'Get-MarvelSeries'
+FunctionsToExport = 'Get-MarvelRandomCharacter', 'Find-MarvelCharacter', 'Get-MarvelCharacter', 'Find-MarvelComic', 'Get-MarvelComic', 'Find-MarvelSeries', 'Get-MarvelSeries'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
