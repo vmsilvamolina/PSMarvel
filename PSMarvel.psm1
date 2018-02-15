@@ -104,3 +104,21 @@ function Get-MarvelCharacter {
         Write-host "N/A"
     }
 }
+
+function Find-MarvelComics {
+    param(
+    [string]$StartWith
+    )
+
+    New-MarvelTimeSpan
+    $MarvelOffset = Get-Random -Maximum 1490
+
+    $Url = "https://gateway.marvel.com:443/v1/public/series?titleStartsWith=$StartWith&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Results = Invoke-WebRequest $Url
+    $Content = $results.Content
+    $Output = ConvertFrom-Json $Content
+    
+    Write-Host "`n## Comic title: `n" -ForegroundColor Green
+    $Output.data.results | select title, description, startYear, endYear, rating
+
+}
