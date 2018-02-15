@@ -35,6 +35,14 @@ Get-Command -module PSMarvel
 ```
 
 ```text
+
+```
+
 ## Related posts
 
 * [PSMarvel PowerShell module](https://blog.victorsilva.com.uy/marvel-from-powershell/) by [@vmsilvamolina](https://twitter.com/vmsilvamolina)
+
+## Resources
+
+* [Marvel Comics REST API documentation](https://developer.marvel.com/documentation/getting_started)
+* [Invoke-RestMethod command documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-restmethod?view=powershell-6)
