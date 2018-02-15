@@ -31,11 +31,15 @@ Install-Module -Name PSMarvel
 The following commands are available:
 
 ```powershell
-Get-Command -module PSMarvel
+Get-Command -Module PSMarvel
 ```
 
 ```text
-
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Function        Find-MarvelCharacter                               1.0        PSMarvel
+Function        Get-MarvelCharacter                                1.0        PSMarvel
+Function        Get-MarvelRandomCharacter                          1.0        PSMarvel
 ```
 
 ## Related posts
