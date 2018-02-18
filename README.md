@@ -37,9 +37,11 @@ Get-Command -Module PSMarvel
 ```text
 CommandType     Name                                               Version    Source
 -----------     ----                                               -------    ------
-Function        Find-MarvelCharacter                               1.0        PSMarvel
-Function        Get-MarvelCharacter                                1.0        PSMarvel
-Function        Get-MarvelRandomCharacter                          1.0        PSMarvel
+Function        Find-MarvelCharacter                               1.0.2      PSMarvel
+Function        Find-MarvelComic                                   1.0.2      PSMarvel
+Function        Get-MarvelCharacter                                1.0.2      PSMarvel
+Function        Get-MarvelComic                                    1.0.2      PSMarvel
+Function        Get-MarvelRandomCharacter                          1.0.2      PSMarvel
 ```
 
 ## Related posts
