@@ -1,7 +1,7 @@
 ﻿function New-MarvelTimeSpan {
 #API Keys and TS
-$global:MarvelPublic = "baf813e65986ffdb43856b3957acda38"
-$global:MarvelPrivate = "62f28fe9b3893112146e8d4add4b7ab571f03f41"
+$global:MarvelPublic = "bafXXXXXXXXXXXXXXXXXda38"
+$global:MarvelPrivate = "62fXXXXXXXXXXXXXXf41"
 $global:MarvelTS = New-TimeSpan -End (Get-Date -Year 2018 -Month 1 -Day 1)
 
 #Form the hash as Marvel requires 
