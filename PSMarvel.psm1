@@ -1,8 +1,19 @@
 ﻿function New-MarvelTimeSpan {
 #API Keys and TS
-$global:MarvelPublic = "bafXXXXXXXXXXXXXXXXXda38"
-$global:MarvelPrivate = "62fXXXXXXXXXXXXXXf41"
 $global:MarvelTS = New-TimeSpan -End (Get-Date -Year 2018 -Month 1 -Day 1)
+
+if (!(Test-Path variable:env:MarvelPublic)) {
+    $MarvelPublicKey = Read-Host -Prompt "Write your public key from the Marvel portal" 
+    [Environment]::SetEnvironmentVariable("MarvelPublic", "$MarvelPublicKey", "Machine")
+    $global:MarvelPublic = $MarvelPublicKey
+    $MarvelPrivateKey = Read-Host -Prompt "Write your private key from the Marvel portal" 
+    [Environment]::SetEnvironmentVariable("MarvelPrivate", "$MarvelPrivateKey", "Machine")
+    $global:MarvelPrivate = $MarvelPrivateKey
+    [Environment]::GetEnvironmentVariables("Machine") | out-null
+} else {
+    $global:MarvelPublic = $env:MarvelPublic
+    $global:MarvelPrivate = $env:MarvelPrivate
+}
 
 #Form the hash as Marvel requires 
 $ToHash = $MarvelTS.ToString() + $MarvelPrivate.ToString() + $MarvelPublic.ToString()
