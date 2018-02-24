@@ -2,21 +2,24 @@
 #API Keys and TS
 $global:MarvelTS = New-TimeSpan -End (Get-Date -Year 2018 -Month 1 -Day 1)
 
-if (!(Test-Path variable:env:MarvelPublic)) {
-    $MarvelPublicKey = Read-Host -Prompt "Write your public key from the Marvel portal" 
-    [Environment]::SetEnvironmentVariable("MarvelPublic", "$MarvelPublicKey", "Machine")
-    $global:MarvelPublic = $MarvelPublicKey
-    $MarvelPrivateKey = Read-Host -Prompt "Write your private key from the Marvel portal" 
-    [Environment]::SetEnvironmentVariable("MarvelPrivate", "$MarvelPrivateKey", "Machine")
-    $global:MarvelPrivate = $MarvelPrivateKey
-    [Environment]::GetEnvironmentVariables("Machine") | out-null
+[Environment]::GetEnvironmentVariables("Machine") | out-null
+$checkVariable = Get-ChildItem Env:MarvelPublicKey -ErrorAction SilentlyContinue
+if ($checkVariable.count -eq 0) {
+    if (!(Test-Path variable:global:MarvelPublicKey)) {
+        $PublicKeyPrompt = Read-Host -Prompt "Write your public key from the Marvel portal"
+        [Environment]::SetEnvironmentVariable("MarvelPublicKey", "$PublicKeyPrompt", "Machine")
+        $global:MarvelPublicKey = $PublicKeyPrompt
+        $PrivateKeyPrompt = Read-Host -Prompt "Write your private key from the Marvel portal"
+        [Environment]::SetEnvironmentVariable("MarvelPrivateKey", "$PrivayeKeyPrompt", "Machine")
+        $global:MarvelPrivateKey = $PrivateKeyPrompt
+    }
 } else {
-    $global:MarvelPublic = $env:MarvelPublic
-    $global:MarvelPrivate = $env:MarvelPrivate
+    $global:MarvelPublicKey = $env:MarvelPublicKey
+    $global:MarvelPrivateKey = $env:MarvelPrivateKey
 }
 
 #Form the hash as Marvel requires 
-$ToHash = $MarvelTS.ToString() + $MarvelPrivate.ToString() + $MarvelPublic.ToString()
+$ToHash = $MarvelTS.ToString() + $MarvelPrivateKey.ToString() + $MarvelPublicKey.ToString()
 $StringBuilder = New-Object System.Text.StringBuilder 
 [System.Security.Cryptography.HashAlgorithm]::Create("MD5").ComputeHash([System.Text.Encoding]::UTF8.GetBytes($ToHash)) | % {
     [Void]$StringBuilder.Append($_.ToString("x2")) 
@@ -28,7 +31,7 @@ function Get-MarvelRandomCharacter {
     New-MarvelTimeSpan
     $MarvelOffset = Get-Random -Maximum 1490
 
-    $Url = "https://gateway.marvel.com:443/v1/public/characters?offset=$MarvelOffset&limit=1&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/characters?offset=$MarvelOffset&limit=1&apikey=$MarvelPublicKey&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
