@@ -51,26 +51,27 @@ function Get-MarvelRandomCharacter {
     if ($Series -gt 0) {
         $Series | % {Write-host "    " $_}
     } else {
-        Write-host "N/A"
+        Write-host "    N/A"
     }
     Write-host "`n## Comics: `n"  -ForegroundColor Green
     $Comics = $output.data.results.comics.items.name
     if ($Comics -gt 0) {
         $Comics | % {Write-host "    " $_}
     } else {
-        Write-host "N/A"
+        Write-host "    N/A"
     }
 }
 
 function Find-MarvelCharacter {
+    [CmdletBinding()]
     param(
-    [string]$StartWith
+    [Parameter(Mandatory)][string]$StartWith
     )
 
     New-MarvelTimeSpan
     $MarvelOffset = Get-Random -Maximum 1490
 
-    $Url = "https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=$StartWith&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=$StartWith&apikey=$MarvelPublicKey&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
@@ -81,14 +82,15 @@ function Find-MarvelCharacter {
 }
 
 function Get-MarvelCharacter {
+    [CmdletBinding()]
     param(
-        [string]$Name
+        [Parameter(Mandatory)][string]$Name
     )
 
     New-MarvelTimeSpan
     $MarvelOffset = Get-Random -Maximum 1490
     $NameModified = $Name.Replace(" ","%20")
-    $Url = "https://gateway.marvel.com:443/v1/public/characters?name=$NameModified&limit=1&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/characters?name=$NameModified&limit=1&apikey=$MarvelPublicKey&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
@@ -120,13 +122,14 @@ function Get-MarvelCharacter {
 }
 
 function Find-MarvelComic {
+    [CmdletBinding()]
     param(
-    [string]$StartWith
+    [Parameter(Mandatory)][string]$StartWith
     )
 
     New-MarvelTimeSpan
 
-    $Url = "https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=$StartWith&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=$StartWith&apikey=$MarvelPublicKey&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
@@ -137,8 +140,9 @@ function Find-MarvelComic {
 }
 
 function Get-MarvelComic {
+    [CmdletBinding()]
     param(
-    [string]$Title
+    [Parameter(Mandatory)][string]$Title
     )
 
     New-MarvelTimeSpan
@@ -146,7 +150,7 @@ function Get-MarvelComic {
     $issueNumber = $Title.Split("#")[1]
     $startYear = $Title.Split("(")[1].Split(")")[0]
     $Title = $Title.split("(")[0] -replace ".$"
-    $Url = "https://gateway.marvel.com:443/v1/public/comics?title=$Title&issueNumber=$issueNumber&startYear=$startYear&apikey=$MarvelPublic&hash=$MD5&ts=$MarvelTS"
+    $Url = "https://gateway.marvel.com:443/v1/public/comics?title=$Title&issueNumber=$issueNumber&startYear=$startYear&apikey=$MarvelPublicKey&hash=$MD5&ts=$MarvelTS"
     $Results = Invoke-WebRequest $Url
     $Content = $results.Content
     $Output = ConvertFrom-Json $Content
