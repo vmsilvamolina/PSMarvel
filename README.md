@@ -32,8 +32,8 @@ In the first run, you will be asked about your public key and private keys of th
 
 ```powershell
 PS C:\Users\vmsilvamolina> Get-MarvelRandomCharacter
-Write your public key from the Marvel portal: baf813e65986ffdb43856b3957acda38
-Write your private key from the Marvel portal: 62f28fe9b3893112146e8d4add4b7ab571f03f41
+Write your public key from the Marvel portal: baf813e6598xxxxxxxxxxxxb3957acda38
+Write your private key from the Marvel portal: 62f28fe9b3xxxxxxxxxx8d4add4b7ab571f03f41
 
 ## Character name: 
 
